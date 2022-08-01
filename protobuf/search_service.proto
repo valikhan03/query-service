@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package protobuf;
+
+option go_package = "/pb";
+
+message GetProductRequest {
+
+};
+
+message GetProductResponse {
+
+};
+
+
+message Filter {
+};
+
+message SearchProductRequest {
+
+};
+
+message SearchProductResponse {
+
+};
+
+service SearchService {
+    rpc GetProduct (GetProductRequest) returns (GetProductResponse) {};
+    rpc SearchProduct (SearchProductRequest) returns (SearchProductResponse) {};
+}
