@@ -22,9 +22,9 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type SearchServiceClient interface {
-	GetAuction(ctx context.Context, in *GetAuctionRequest, opts ...grpc.CallOption) (*Auction, error)
+	GetAuction(ctx context.Context, in *GetAuctionInfoRequest, opts ...grpc.CallOption) (*GetAuctionInfoResponse, error)
 	SearchAuctions(ctx context.Context, in *SearchAuctionsRequest, opts ...grpc.CallOption) (*SearchAuctionsResponse, error)
-	GetProduct(ctx context.Context, in *GetProductRequest, opts ...grpc.CallOption) (*Product, error)
+	GetProduct(ctx context.Context, in *GetProductInfoRequest, opts ...grpc.CallOption) (*GetProductInfoResponse, error)
 	SearchProduct(ctx context.Context, in *SearchProductsRequest, opts ...grpc.CallOption) (*SearchProductsResponse, error)
 }
 
@@ -36,8 +36,8 @@ func NewSearchServiceClient(cc grpc.ClientConnInterface) SearchServiceClient {
 	return &searchServiceClient{cc}
 }
 
-func (c *searchServiceClient) GetAuction(ctx context.Context, in *GetAuctionRequest, opts ...grpc.CallOption) (*Auction, error) {
-	out := new(Auction)
+func (c *searchServiceClient) GetAuction(ctx context.Context, in *GetAuctionInfoRequest, opts ...grpc.CallOption) (*GetAuctionInfoResponse, error) {
+	out := new(GetAuctionInfoResponse)
 	err := c.cc.Invoke(ctx, "/protobuf.SearchService/GetAuction", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -54,8 +54,8 @@ func (c *searchServiceClient) SearchAuctions(ctx context.Context, in *SearchAuct
 	return out, nil
 }
 
-func (c *searchServiceClient) GetProduct(ctx context.Context, in *GetProductRequest, opts ...grpc.CallOption) (*Product, error) {
-	out := new(Product)
+func (c *searchServiceClient) GetProduct(ctx context.Context, in *GetProductInfoRequest, opts ...grpc.CallOption) (*GetProductInfoResponse, error) {
+	out := new(GetProductInfoResponse)
 	err := c.cc.Invoke(ctx, "/protobuf.SearchService/GetProduct", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -76,9 +76,9 @@ func (c *searchServiceClient) SearchProduct(ctx context.Context, in *SearchProdu
 // All implementations must embed UnimplementedSearchServiceServer
 // for forward compatibility
 type SearchServiceServer interface {
-	GetAuction(context.Context, *GetAuctionRequest) (*Auction, error)
+	GetAuction(context.Context, *GetAuctionInfoRequest) (*GetAuctionInfoResponse, error)
 	SearchAuctions(context.Context, *SearchAuctionsRequest) (*SearchAuctionsResponse, error)
-	GetProduct(context.Context, *GetProductRequest) (*Product, error)
+	GetProduct(context.Context, *GetProductInfoRequest) (*GetProductInfoResponse, error)
 	SearchProduct(context.Context, *SearchProductsRequest) (*SearchProductsResponse, error)
 	mustEmbedUnimplementedSearchServiceServer()
 }
@@ -87,13 +87,13 @@ type SearchServiceServer interface {
 type UnimplementedSearchServiceServer struct {
 }
 
-func (UnimplementedSearchServiceServer) GetAuction(context.Context, *GetAuctionRequest) (*Auction, error) {
+func (UnimplementedSearchServiceServer) GetAuction(context.Context, *GetAuctionInfoRequest) (*GetAuctionInfoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAuction not implemented")
 }
 func (UnimplementedSearchServiceServer) SearchAuctions(context.Context, *SearchAuctionsRequest) (*SearchAuctionsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SearchAuctions not implemented")
 }
-func (UnimplementedSearchServiceServer) GetProduct(context.Context, *GetProductRequest) (*Product, error) {
+func (UnimplementedSearchServiceServer) GetProduct(context.Context, *GetProductInfoRequest) (*GetProductInfoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetProduct not implemented")
 }
 func (UnimplementedSearchServiceServer) SearchProduct(context.Context, *SearchProductsRequest) (*SearchProductsResponse, error) {
@@ -113,7 +113,7 @@ func RegisterSearchServiceServer(s grpc.ServiceRegistrar, srv SearchServiceServe
 }
 
 func _SearchService_GetAuction_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetAuctionRequest)
+	in := new(GetAuctionInfoRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -125,7 +125,7 @@ func _SearchService_GetAuction_Handler(srv interface{}, ctx context.Context, dec
 		FullMethod: "/protobuf.SearchService/GetAuction",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SearchServiceServer).GetAuction(ctx, req.(*GetAuctionRequest))
+		return srv.(SearchServiceServer).GetAuction(ctx, req.(*GetAuctionInfoRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -149,7 +149,7 @@ func _SearchService_SearchAuctions_Handler(srv interface{}, ctx context.Context,
 }
 
 func _SearchService_GetProduct_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetProductRequest)
+	in := new(GetProductInfoRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -161,7 +161,7 @@ func _SearchService_GetProduct_Handler(srv interface{}, ctx context.Context, dec
 		FullMethod: "/protobuf.SearchService/GetProduct",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SearchServiceServer).GetProduct(ctx, req.(*GetProductRequest))
+		return srv.(SearchServiceServer).GetProduct(ctx, req.(*GetProductInfoRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }

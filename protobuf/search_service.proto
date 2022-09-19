@@ -4,12 +4,14 @@ package protobuf;
 
 option go_package = "/pb";
 
-import "auction.proto";
-import "product.proto";
 
+message GetAuctionInfoRequest{
+    string auction_id = 1;
+};
 
-message GetAuctionRequest{
-    string AuctionID = 1;
+message GetAuctionInfoResponse{
+    bytes auction = 1;
+    string error = 2;
 };
 
 message AuctionsFilter{
@@ -17,40 +19,50 @@ message AuctionsFilter{
 };
 
 message SearchAuctionsRequest{
-    string SearchRequest = 1;
-    AuctionsFilter Filter = 2;
+    string search_request = 1;
+    AuctionsFilter filter = 2;
+    int32 page = 3;
 };
 
 message SearchAuctionsResponse{
-    int64 Match = 1;
-    string Status = 2;
-    string Error = 3;
-    repeated Auction Auctions = 4;
+    int64 match = 1;
+    string status = 2;
+    string error = 3;
+    bytes auctions = 4;
+    int32 page_num = 5;
 };
 
-message GetProductRequest {
-    string ProductID = 1;
+message GetProductInfoRequest {
+    string product_id = 1;
 };
+
+message GetProductInfoResponse{
+    bytes product = 1;
+    string error = 2;
+}
 
 message ProductsFilter {
+
 };
 
 message SearchProductsRequest {
-    string SearchRequest = 1;
-    ProductsFilter Filter = 2;
+    string search_request = 1;
+    ProductsFilter filter = 2;
+    int32 page = 3;
 };
 
 message SearchProductsResponse {
-    int64 Match = 1;
-    string Status = 2;
-    string Error = 3;
-    repeated Product Products = 4;
+    int64 match = 1;
+    string status = 2;
+    string error = 3;
+    bytes products = 4;
+    int32 page_num = 5;
 };
 
 service SearchService {
-    rpc GetAuction (GetAuctionRequest) returns (Auction) {};
+    rpc GetAuction (GetAuctionInfoRequest) returns (GetAuctionInfoResponse) {};
     rpc SearchAuctions (SearchAuctionsRequest) returns (SearchAuctionsResponse) {};
 
-    rpc GetProduct (GetProductRequest) returns (Product) {};
+    rpc GetProduct (GetProductInfoRequest) returns (GetProductInfoResponse) {};
     rpc SearchProduct (SearchProductsRequest) returns (SearchProductsResponse) {};
 }
