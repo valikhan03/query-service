@@ -11,7 +11,7 @@ message GetAuctionInfoRequest{
 
 message GetAuctionInfoResponse{
     bytes auction = 1;
-    string error = 2;
+    int32 status = 2;
 };
 
 message AuctionsFilter{
@@ -28,7 +28,7 @@ message SearchAuctionsResponse{
     int64 match = 1;
     string status = 2;
     string error = 3;
-    bytes auctions = 4;
+    repeated bytes auctions = 4;
     int32 page_num = 5;
 };
 
@@ -38,7 +38,7 @@ message GetProductInfoRequest {
 
 message GetProductInfoResponse{
     bytes product = 1;
-    string error = 2;
+    int32 status = 2;
 }
 
 message ProductsFilter {
@@ -55,7 +55,7 @@ message SearchProductsResponse {
     int64 match = 1;
     string status = 2;
     string error = 3;
-    bytes products = 4;
+    repeated bytes products = 4;
     int32 page_num = 5;
 };
 
@@ -64,5 +64,5 @@ service SearchService {
     rpc SearchAuctions (SearchAuctionsRequest) returns (SearchAuctionsResponse) {};
 
     rpc GetProduct (GetProductInfoRequest) returns (GetProductInfoResponse) {};
-    rpc SearchProduct (SearchProductsRequest) returns (SearchProductsResponse) {};
+    rpc SearchProducts (SearchProductsRequest) returns (SearchProductsResponse) {};
 }

@@ -25,7 +25,7 @@ type SearchServiceClient interface {
 	GetAuction(ctx context.Context, in *GetAuctionInfoRequest, opts ...grpc.CallOption) (*GetAuctionInfoResponse, error)
 	SearchAuctions(ctx context.Context, in *SearchAuctionsRequest, opts ...grpc.CallOption) (*SearchAuctionsResponse, error)
 	GetProduct(ctx context.Context, in *GetProductInfoRequest, opts ...grpc.CallOption) (*GetProductInfoResponse, error)
-	SearchProduct(ctx context.Context, in *SearchProductsRequest, opts ...grpc.CallOption) (*SearchProductsResponse, error)
+	SearchProducts(ctx context.Context, in *SearchProductsRequest, opts ...grpc.CallOption) (*SearchProductsResponse, error)
 }
 
 type searchServiceClient struct {
@@ -63,9 +63,9 @@ func (c *searchServiceClient) GetProduct(ctx context.Context, in *GetProductInfo
 	return out, nil
 }
 
-func (c *searchServiceClient) SearchProduct(ctx context.Context, in *SearchProductsRequest, opts ...grpc.CallOption) (*SearchProductsResponse, error) {
+func (c *searchServiceClient) SearchProducts(ctx context.Context, in *SearchProductsRequest, opts ...grpc.CallOption) (*SearchProductsResponse, error) {
 	out := new(SearchProductsResponse)
-	err := c.cc.Invoke(ctx, "/protobuf.SearchService/SearchProduct", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/protobuf.SearchService/SearchProducts", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -79,8 +79,8 @@ type SearchServiceServer interface {
 	GetAuction(context.Context, *GetAuctionInfoRequest) (*GetAuctionInfoResponse, error)
 	SearchAuctions(context.Context, *SearchAuctionsRequest) (*SearchAuctionsResponse, error)
 	GetProduct(context.Context, *GetProductInfoRequest) (*GetProductInfoResponse, error)
-	SearchProduct(context.Context, *SearchProductsRequest) (*SearchProductsResponse, error)
-	mustEmbedUnimplementedSearchServiceServer()
+	SearchProducts(context.Context, *SearchProductsRequest) (*SearchProductsResponse, error)
+	//mustEmbedUnimplementedSearchServiceServer()
 }
 
 // UnimplementedSearchServiceServer must be embedded to have forward compatible implementations.
@@ -96,8 +96,8 @@ func (UnimplementedSearchServiceServer) SearchAuctions(context.Context, *SearchA
 func (UnimplementedSearchServiceServer) GetProduct(context.Context, *GetProductInfoRequest) (*GetProductInfoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetProduct not implemented")
 }
-func (UnimplementedSearchServiceServer) SearchProduct(context.Context, *SearchProductsRequest) (*SearchProductsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method SearchProduct not implemented")
+func (UnimplementedSearchServiceServer) SearchProducts(context.Context, *SearchProductsRequest) (*SearchProductsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SearchProducts not implemented")
 }
 func (UnimplementedSearchServiceServer) mustEmbedUnimplementedSearchServiceServer() {}
 
@@ -166,20 +166,20 @@ func _SearchService_GetProduct_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
-func _SearchService_SearchProduct_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _SearchService_SearchProducts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SearchProductsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SearchServiceServer).SearchProduct(ctx, in)
+		return srv.(SearchServiceServer).SearchProducts(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/protobuf.SearchService/SearchProduct",
+		FullMethod: "/protobuf.SearchService/SearchProducts",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SearchServiceServer).SearchProduct(ctx, req.(*SearchProductsRequest))
+		return srv.(SearchServiceServer).SearchProducts(ctx, req.(*SearchProductsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -204,8 +204,8 @@ var SearchService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _SearchService_GetProduct_Handler,
 		},
 		{
-			MethodName: "SearchProduct",
-			Handler:    _SearchService_SearchProduct_Handler,
+			MethodName: "SearchProducts",
+			Handler:    _SearchService_SearchProducts_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
