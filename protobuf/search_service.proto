@@ -26,9 +26,9 @@ message SearchAuctionsRequest{
 
 message SearchAuctionsResponse{
     int64 match = 1;
-    string status = 2;
+    int32 status = 2;
     string error = 3;
-    repeated bytes auctions = 4;
+    bytes auctions = 4;
     int32 page_num = 5;
 };
 
@@ -53,9 +53,9 @@ message SearchProductsRequest {
 
 message SearchProductsResponse {
     int64 match = 1;
-    string status = 2;
+    int32 status = 2;
     string error = 3;
-    repeated bytes products = 4;
+    bytes products = 4;
     int32 page_num = 5;
 };
 

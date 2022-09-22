@@ -101,15 +101,19 @@ func (s *Service) SearchAuctions(ctx context.Context, req *pb.SearchAuctionsRequ
 	}
 
 	response := pb.SearchAuctionsResponse{}
+	var auctions []interface{}
 
 	for _, hit := range resbody["hits"].(map[string]interface{}) {
-		data, err := json.Marshal(hit.(map[string]interface{})["_source"])
-		if err != nil {
-			log.Printf("Service.SearchAuctions: %x", err)
-			return nil, err
-		}
-		response.Auctions = append(response.Auctions, data)
+		auctions = append(auctions, hit.(map[string]interface{})["_source"])
 	}
+	data, err := json.Marshal(auctions)
+	if err != nil {
+		log.Printf("Service.SearchAuctions: %x", err)
+		return nil, err
+	}
+
+	response.Auctions = data
+	response.Status = 200
 
 	return &response, nil
 }
@@ -194,15 +198,20 @@ func (s *Service) SearchProducts(ctx context.Context, req *pb.SearchProductsRequ
 	}
 
 	response := pb.SearchProductsResponse{}
+	var products []interface{}
 
 	for _, hit := range resbody["hits"].(map[string]interface{}) {
-		data, err := json.Marshal(hit.(map[string]interface{})["_source"])
-		if err != nil {
-			log.Printf("Service.SearchProduct: %x", err)
-			return nil, err
-		}
-		response.Products = append(response.Products, data)
+		products = append(products, hit.(map[string]interface{})["_source"])
 	}
+
+	data, err := json.Marshal(products)
+	if err != nil {
+		log.Printf("Service.SearchProduct: %x", err)
+		return nil, err
+	}
+
+	response.Products = data
+	response.Status = 200
 
 	return &response, nil
 }
