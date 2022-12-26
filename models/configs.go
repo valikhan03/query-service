@@ -16,14 +16,14 @@ type Configs struct {
 }
 
 type ElasticConfigs struct {
-	Addrs    []string `yaml:"elasticsearch.addrs"`
-	Username string   `yaml:"elasticsearch.addrs"`
+	Addrs    []string `yaml:"addrs"`
+	Username string   `yaml:"username"`
 	Password string   `yaml:"-"`
 }
 
 type ServerConfigs struct {
-	Host string `yaml:"server.host"`
-	Port string `yaml:"server.port"`
+	Host string `yaml:"host"`
+	Port string `yaml:"port"`
 }
 
 func InitConfigs() {
