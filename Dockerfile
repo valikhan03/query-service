@@ -1,5 +1,4 @@
-FROM golang:1.18
-
+FROM golang:1.18-alpine
 
 WORKDIR /app
 ADD /. /app
@@ -10,4 +9,5 @@ RUN go install
 
 RUN go build -o index
 
-ENTRYPOINT ["/app/index"]
+CMD ["/app/index"]
+EXPOSE 8400
