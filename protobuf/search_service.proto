@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+package protobuf;
+
+option go_package = "/pb";
+
+import "auction.proto";
+import "product.proto";
+
+
+message GetAuctionRequest{
+    string AuctionID = 1;
+};
+
+message AuctionsFilter{
+
+};
+
+message SearchAuctionsRequest{
+    string SearchRequest = 1;
+    AuctionsFilter Filter = 2;
+};
+
+message SearchAuctionsResponse{
+    int64 Match = 1;
+    string Status = 2;
+    string Error = 3;
+    repeated Auction Auctions = 4;
+};
+
+message GetProductRequest {
+    string ProductID = 1;
+};
+
+message ProductsFilter {
+};
+
+message SearchProductsRequest {
+    string SearchRequest = 1;
+    ProductsFilter Filter = 2;
+};
+
+message SearchProductsResponse {
+    int64 Match = 1;
+    string Status = 2;
+    string Error = 3;
+    repeated Product Products = 4;
+};
+
+service SearchService {
+    rpc GetAuction (GetAuctionRequest) returns (Auction) {};
+    rpc SearchAuctions (SearchAuctionsRequest) returns (SearchAuctionsResponse) {};
+
+    rpc GetProduct (GetProductRequest) returns (Product) {};
+    rpc SearchProduct (SearchProductsRequest) returns (SearchProductsResponse) {};
+}
