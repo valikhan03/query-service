@@ -1,4 +1,4 @@
-module search-service
+module github.com/valikhan03/search-service
 
 go 1.18
 

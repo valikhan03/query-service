@@ -49,5 +49,5 @@ func (h *Handler) GetProduct(c *gin.Context) {
 }
 
 func (h *Handler) Suggestions(c *gin.Context) {
-
+	
 }

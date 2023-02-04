@@ -14,6 +14,13 @@ const(
 )
 
 func (s *Service) Search(ctx context.Context, req string, page int) ([]interface{}, error) {
+	
+
+	return nil, nil
+}
+
+
+func (s *Service) search(ctx context.Context, req string, page int, index string) {
 	query := map[string]interface{}{
 		"query": map[string]interface{}{
 			"match": map[string]interface{}{
@@ -36,7 +43,6 @@ func (s *Service) Search(ctx context.Context, req string, page int) ([]interface
 	err := json.NewEncoder(&buffer).Encode(&query)
 	if err != nil {
 		log.Printf("Service.Search: %x", err)
-		return nil, err
 	}
 
 	res, err := s.esconn.Search(
@@ -47,7 +53,6 @@ func (s *Service) Search(ctx context.Context, req string, page int) ([]interface
 	)
 	if err != nil {
 		log.Printf("Service.Search: %x", err)
-		return nil, err
 	}
 
 	var resbody map[string]interface{}
@@ -55,7 +60,6 @@ func (s *Service) Search(ctx context.Context, req string, page int) ([]interface
 	err = json.NewDecoder(res.Body).Decode(&resbody)
 	if err != nil {
 		log.Printf("Service.Search: %x", err)
-		return nil, err
 	}
 
 	var response []interface{}
@@ -63,6 +67,4 @@ func (s *Service) Search(ctx context.Context, req string, page int) ([]interface
 	for _, hit := range resbody["hits"].(map[string]interface{}) {
 		response = append(response, hit.(map[string]interface{})["_source"])
 	}
-
-	return response, nil
-}
+} 

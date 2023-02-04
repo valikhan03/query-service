@@ -16,9 +16,9 @@ type Configs struct {
 }
 
 type ElasticConfigs struct {
-	Addrs    []string `yaml:"addrs"`
-	Username string   `yaml:"username"`
-	Password string   `yaml:"-"`
+	Addr     string `yaml:"addr"`
+	Username string `yaml:"username"`
+	Password string `yaml:"-"`
 }
 
 type ServerConfigs struct {
@@ -31,24 +31,24 @@ func InitConfigs() {
 	var serverConfigs ServerConfigs
 
 	elasticConfFile, err := ioutil.ReadFile("configs/elastic.yaml")
-	if err != nil{
+	if err != nil {
 		log.Fatal(err)
 	}
 
 	err = yaml.Unmarshal(elasticConfFile, &elasticConfigs)
-	if err != nil{
+	if err != nil {
 		log.Fatal(err)
 	}
 
 	elasticConfigs.Password = os.Getenv("ELASTIC_PASSWORD")
 
 	serverConfFile, err := ioutil.ReadFile("configs/server.yaml")
-	if err != nil{
+	if err != nil {
 		log.Fatal(err)
 	}
 
 	err = yaml.Unmarshal(serverConfFile, &serverConfigs)
-	if err != nil{
+	if err != nil {
 		log.Fatal(err)
 	}
 

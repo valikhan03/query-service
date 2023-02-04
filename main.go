@@ -3,11 +3,11 @@ package main
 import (
 	"fmt"
 
-	"search-service/elastic"
-	"search-service/models"
-	"search-service/services"
-	"search-service/api/v1"
-	"search-service/api/v1/handlers"
+	"github.com/valikhan03/search-service/elastic"
+	"github.com/valikhan03/search-service/models"
+	"github.com/valikhan03/search-service/services"
+	"github.com/valikhan03/search-service/api/v1"
+	"github.com/valikhan03/search-service/api/v1/handlers"
 
 	"github.com/gin-gonic/gin"
 )

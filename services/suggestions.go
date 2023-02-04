@@ -8,6 +8,7 @@ import(
 
 func (s *Service) SaveToSearchHistory(userid, req string) {
 	//save user's search request
+	
 }
 
 func (s *Service) SaveToWatchHistory(userid, req string) {

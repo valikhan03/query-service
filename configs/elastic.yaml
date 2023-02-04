@@ -1,2 +1,2 @@
-addrs: [ 127.0.0.1:9092 ]
+addr: localhost:9200
 username: null
