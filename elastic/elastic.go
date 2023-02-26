@@ -15,7 +15,7 @@ func NewElasticClient() *elastic.Client {
 	}
 	client, err := elastic.NewClient(config)
 	if err != nil {
-		log.Printf("elasticsearch: %s\n", err.Error())
+		log.Fatalf("elasticsearch: %s\n", err.Error())
 	}
 
 	return client

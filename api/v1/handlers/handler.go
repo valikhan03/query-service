@@ -9,7 +9,7 @@ import (
 type service interface {
 	GetAuction(ctx context.Context, id string) (map[string]interface{}, error)
 	GetProduct(ctx context.Context, id string) (map[string]interface{}, error)
-	Search(ctx context.Context, req string, page int) ([]interface{}, error)
+	Search(ctx context.Context, req string, page int) (map[string]interface{}, error)
 }
 
 type Handler struct {
@@ -49,5 +49,5 @@ func (h *Handler) GetProduct(c *gin.Context) {
 }
 
 func (h *Handler) Suggestions(c *gin.Context) {
-	
+
 }
