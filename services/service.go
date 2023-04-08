@@ -7,10 +7,14 @@ import (
 
 	"github.com/elastic/go-elasticsearch/v8"
 	"github.com/elastic/go-elasticsearch/v8/esapi"
+	"github.com/jmoiron/sqlx"
+	"github.com/google/uuid"
+	"github.com/valikhan03/search-service/models"
 )
 
 type Service struct {
 	esconn *elasticsearch.Client
+	dbconn *sqlx.DB
 }
 
 func NewService(conn *elasticsearch.Client) *Service {
@@ -76,3 +80,49 @@ func (s *Service) GetProduct(ctx context.Context, id string) (map[string]interfa
 	return res["_source"].(map[string]interface{}), nil
 }
 
+
+func (s *Service) GetOwnedAuctions(user_id int) ([]map[string]interface{}, error) {
+	query := `select * from vw_owned_auctions where organizer_id=$1`
+	var results []map[string]interface{}
+	err := s.dbconn.Select(&results, query, user_id)
+	if err != nil{
+		return nil, err
+	}
+	if len(results)==0 {
+		return nil, models.NO_DATA
+	}
+	return results, nil
+}
+
+
+func (s *Service) GetParticipatedAuctions(user_id int) ([]map[string]interface{}, error) {
+	query := ``
+	var results []map[string]interface{}
+	err := s.dbconn.Select(&results, query, user_id)
+	if err != nil{
+		return nil, err
+	}
+	if len(results)==0 {
+		return nil, models.NO_DATA
+	}
+	return results, nil
+}
+
+
+func (s *Service) GetJoinAuctionRequests(auction_id string) ([]map[string]interface{}, error) {
+	query := `select * from admin.vw_attempt_requests where auction_id=$1`
+	var results []map[string]interface{}
+	err := s.dbconn.Select(&results, query, uuid.MustParse(auction_id))
+	if err != nil{
+		return nil, err
+	}
+	if len(results)==0 {
+		return nil, models.NO_DATA
+	}
+	return results, nil
+}
+
+
+func (s *Service) GetAuctionParticipantsList(auction_id string) ([]map[string]interface{}, error) {
+	
+}

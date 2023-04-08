@@ -74,6 +74,8 @@ func (s *Service) search(ctx context.Context, req string, page int, index string
 
 	resbody := make(map[string]interface{})
 
+	defer res.Body.Close()
+
 	err = json.NewDecoder(res.Body).Decode(&resbody)
 	if err != nil {
 		log.Fatalf("Service.Search: %s", err.Error())

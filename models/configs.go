@@ -11,8 +11,18 @@ import (
 var ConfigsGlobal Configs
 
 type Configs struct {
+	DB      DBConfigs
 	Elastic ElasticConfigs
 	Server  ServerConfigs
+}
+
+type DBConfigs struct {
+	Host     string `yaml:"host"`
+	Port     int    `yaml:"port"`
+	User     string `yaml:"user"`
+	Password string `yaml:"-"`
+	DBName   string `yaml:"dbname"`
+	SSLMode  string `yaml:"sslmode"`
 }
 
 type ElasticConfigs struct {
@@ -27,8 +37,21 @@ type ServerConfigs struct {
 }
 
 func InitConfigs() {
+	var dbConfigs DBConfigs
 	var elasticConfigs ElasticConfigs
 	var serverConfigs ServerConfigs
+
+	dbConfFile, err := ioutil.ReadFile("configs/db.yaml")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = yaml.Unmarshal(dbConfFile, &dbConfigs)
+	if err != nil{
+		log.Fatal(err)
+	}
+
+	dbConfigs.Password = os.Getenv("DB_PASSWORD")
 
 	elasticConfFile, err := ioutil.ReadFile("configs/elastic.yaml")
 	if err != nil {
@@ -52,6 +75,7 @@ func InitConfigs() {
 		log.Fatal(err)
 	}
 
+	ConfigsGlobal.DB = dbConfigs
 	ConfigsGlobal.Elastic = elasticConfigs
 	ConfigsGlobal.Server = serverConfigs
 }

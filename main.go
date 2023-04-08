@@ -22,11 +22,11 @@ func main() {
 	router := gin.Default()
 
 	api.Routes(router, handler)
-	
+
 	server := &http.Server{
-		Addr: fmt.Sprintf("%s:%s", models.ConfigsGlobal.Server.Host, models.ConfigsGlobal.Server.Port),
-		Handler: router,
-		ReadTimeout: 3 * time.Second,
+		Addr:         fmt.Sprintf("%s:%s", models.ConfigsGlobal.Server.Host, models.ConfigsGlobal.Server.Port),
+		Handler:      router,
+		ReadTimeout:  3 * time.Second,
 		WriteTimeout: 3 * time.Second,
 	}
 
@@ -34,5 +34,3 @@ func main() {
 
 	server.ListenAndServe()
 }
-
-
